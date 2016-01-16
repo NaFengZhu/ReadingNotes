@@ -1,0 +1,35 @@
+1.Android动画的原理
+	1.View.startAnimation(Animation)
+	2.setAnimation(animation)设置animation对象
+	3.invalidate(true)重绘自己
+	4.View.draw(Canvas, ViewGroup, long)
+	5.View.drawAnimation(ViewGroup, long, Animation, boolean)
+	6.Animation.getTransformation()
+	7.Animation.applyTransformation(float, Transformation)
+	而该方法正是真正的处理动画变化的过程
+	8.Choreographer对象来处理动画（）
+2.View的绘制流程
+	* View系统的绘制流程会从ViewRoot的performTraversals()方法中开始,在其内部调用View的measure()方法
+
+	0.measure() 调用了OnMeasure()，getDefaultSize()  每个视图都需要经历一次measure过程
+	1.OnMeasure
+		View系统的绘制流程会从ViewRoot的performTraversals()方法中开始,在其内部调用View的measure()方法
+	2.onLayout
+		measure过程结束后，视图的大小就已经测量好了，接下来就是layout的过程了。
+		ViewRoot的performTraversals()方法会在measure结束后继续执行，并调用View的layout()方法来执行此过程
+		空方法，即父视图决定子视图的显示位置
+		ViewGroup中的onLayout()方法竟然是一个抽象方法，这就意味着所有ViewGroup的子类都必须重写这个方法
+	隐身问题：getWidth()方法和getMeasureWidth()方法到底有什么区别呢？
+			在onLayout()过程结束后，我们就可以调用getWidth()方法和getHeight()方法来获取视图的宽高了
+		首先getMeasureWidth()方法在measure()	过程结束后就可以获取到了，而getWidth()方法要在layout()过程结束后才能获取到。
+		另外，getMeasureWidth()方法中的值是通过setMeasuredDimension()方法来进行设置的，而getWidth()方法中的值则是通过视图右边的坐标减去左边的坐标计算出来的。
+	3.onDraw
+	ViewRoot中的代码会继续执行并创建出一个Canvas对象，然后调用View的draw()方法来执行具体的绘制工作
+		1.这一步的作用是对视图的背景进行绘制
+		2.这里会先得到一个mBGDrawable对象，然后根据layout过程确定的视图位置来设置	背景的绘制区域
+		3.之后再调用Drawable的draw()方法来完成背景的绘制工作
+		4.这一步的作用是对视图的内容进行绘制
+		5.第三步完成之后紧接着会执行第四步，这一步的作用是对当前视图的所有子视图进行绘制，但如果当前的视图没有子视图，那么也就不需要进行绘制了。因此你会发现View中的dispatchDraw()方法又是一个空方法，而ViewGroup的dispatchDraw()方法中就会有具体的绘制代码。
+		6.这一步的作用是对视图的滚动条进行绘制
+		－－－－－
+		绘制的方式主要是借助Canvas这个类，它会作为参数传入到onDraw()方法中，供给每个视图使用。
