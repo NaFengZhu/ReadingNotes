@@ -34,4 +34,32 @@
 		－－－－－
 		绘制的方式主要是借助Canvas这个类，它会作为参数传入到onDraw()方法中，供给每个视图使用。
 3.touch事件机制
+
+
+4.@TargetAPI(version)
+google:
+Indicates that Lint should treat this type as targeting a given API level, no matter what the project target is.
+如果不加，lint编译是会报错
+
+android 各个版本兼容性方案
+最好在方法内通过Build.VERSION.SDK进行判断版本，不同版本系统使用不同的API
+
+5. ClipboardManager(clip 剪切；board 板) 引申：clipboard framework
+init:getSystemService(Class)
+supports type:
+ It supports both simple and complex data types, including text strings, complex data structures, text and binary stream data, and even application assets
+store type:
+Simple text data is stored directly in the clipboard, while complex data is stored as a reference that the pasting application resolves with a content provider
+tips:
+The clipboard holds only one clip object at a time. When an application puts a clip object on the clipboard, the previous clip object disappears.
+
+The clip object can take one of three forms:
+Text
+A text string. You put the string directly into the clip object, which you then put onto the clipboard. To paste the string, you get the clip object from the clipboard and copy the string to into your application's storage.
+URI
+A Uri object representing any form of URI. This is primarily for copying complex data from a content provider. To copy data, you put a Uri object into a clip object and put the clip object onto the clipboard. To paste the data, you get the clip object, get the Uri object, resolve it to a data source such as a content provider, and copy the data from the source into your application's storage.
+Intent
+An Intent. This supports copying application shortcuts. To copy data, you create an Intent, put it into a clip object, and put the clip object onto the clipboard. To paste the data, you get the clip object and then copy the Intent object into your application's memory area.
+
+
 	
