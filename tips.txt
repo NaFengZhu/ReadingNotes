@@ -62,4 +62,8 @@ Intent
 An Intent. This supports copying application shortcuts. To copy data, you create an Intent, put it into a clip object, and put the clip object onto the clipboard. To paste the data, you get the clip object and then copy the Intent object into your application's memory area.
 
 
+6.Moto G(2代) 4G LTE
+1>.打开Webview url时，出现err ssl protocol error 
+
+
 	
