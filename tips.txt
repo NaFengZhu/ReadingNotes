@@ -8,6 +8,7 @@
 	7.Animation.applyTransformation(float, Transformation)
 	而该方法正是真正的处理动画变化的过程
 	8.Choreographer对象来处理动画（）
+
 2.View的绘制流程
 	* View系统的绘制流程会从ViewRoot的performTraversals()方法中开始,在其内部调用View的measure()方法
 
@@ -74,5 +75,6 @@ An Intent. This supports copying application shortcuts. To copy data, you create
 如果你有一个复杂的UI，你应该考虑写一个自定义的ViewGroup来执行他的layout操作。与内置的view不同，自定义的view可以使得程序仅仅测量这一部分，这避免了遍历整个view的层级结构来计算大小。这个PieChart 例子展示了如何继承ViewGroup作为自定义view的一部分。PieChart 有子views，但是它从来不测量它们。而是根据他自身的layout法则，直接设置它们的大小
 	3.使用硬件加速
 	GPU硬件加速可以提高许多程序的性能。但是这并不是说它适合所有的程序
+—
 
 	
