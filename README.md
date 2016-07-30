@@ -102,3 +102,11 @@
 
 21.![](/assets/4.png)
 
+22.When 表达式
+
+    when表达式于Java中的Switch\/case类似，但是要强大的多。与Java中Switch\/case不同的地方是参数可以是任何类型，并且分支也可以是一个条件
+
+    ![](/assets/5.png)
+
+    ![](/assets/6.png)
+
