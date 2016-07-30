@@ -36,27 +36,33 @@
 
 10.Data class 要求
 
-    1.primary 构造函数至少需要一个参数
+```
+1.primary 构造函数至少需要一个参数
 
-    2.所有primary 构造函数必须用val or var 来表示
+2.所有primary 构造函数必须用val or var 来表示
 
-    3.Data class不能被abstrct inner open sealed修饰
+3.Data class不能被abstrct inner open sealed修饰
 
-    4.Data class 不能继承其它的类，但是可以实现接口
+4.Data class 不能继承其它的类，但是可以实现接口
+```
 
 11.Kotlin提供了标准的Data class对象，但是自定义data class 对象是更好的选择，因为对于项目来说自定义更有意义
 
-    标准的库提供了 Pair 和 Triple
-
-
+```
+标准的库提供了 Pair 和 Triple
+```
 
 －－－－－－－－－－－－－－－ Data Class －－－－－－－－－－－
-
-
 
 －－－－－－－－－－－－－－－ Destructuring Declaration －－－－－－－－－－－
 
 12.把一个对象分解为一些不同变量 这种语法叫Destructuring Declaration
 
 －－－－－－－－－－－－－－－ Destructuring Declaration －－－－－－－－－－－
+
+13.修饰符
+
+    1.private 它表示只能被自己所在的文件看见
+
+    2. 什么是model![](/assets/3.png)
 
