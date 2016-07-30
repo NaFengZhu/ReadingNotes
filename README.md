@@ -1,6 +1,6 @@
 # Kotlin for android developer 笔记
 
-1.类继承，Kotlin里的类默认是不能被继承的，只有哪些生命了open 和 abstrct 的类才能被继承
+1.类继承， Kotlin里的类默认是不能被继承的，只有哪些生命了open 和 abstrct 的类才能被继承
 
 2.Kotlin构造函数的函数体是  init {... }
 
