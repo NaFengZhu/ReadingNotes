@@ -1,0 +1,80 @@
+1.Android动画的原理
+	1.View.startAnimation(Animation)
+	2.setAnimation(animation)设置animation对象
+	3.invalidate(true)重绘自己
+	4.View.draw(Canvas, ViewGroup, long)
+	5.View.drawAnimation(ViewGroup, long, Animation, boolean)
+	6.Animation.getTransformation()
+	7.Animation.applyTransformation(float, Transformation)
+	而该方法正是真正的处理动画变化的过程
+	8.Choreographer对象来处理动画（）
+
+2.View的绘制流程
+	* View系统的绘制流程会从ViewRoot的performTraversals()方法中开始,在其内部调用View的measure()方法
+
+	0.measure() 调用了OnMeasure()，getDefaultSize()  每个视图都需要经历一次measure过程
+	1.OnMeasure
+		View系统的绘制流程会从ViewRoot的performTraversals()方法中开始,在其内部调用View的measure()方法
+	2.onLayout
+		measure过程结束后，视图的大小就已经测量好了，接下来就是layout的过程了。
+		ViewRoot的performTraversals()方法会在measure结束后继续执行，并调用View的layout()方法来执行此过程
+		空方法，即父视图决定子视图的显示位置
+		ViewGroup中的onLayout()方法竟然是一个抽象方法，这就意味着所有ViewGroup的子类都必须重写这个方法
+	隐身问题：getWidth()方法和getMeasureWidth()方法到底有什么区别呢？
+			在onLayout()过程结束后，我们就可以调用getWidth()方法和getHeight()方法来获取视图的宽高了
+		首先getMeasureWidth()方法在measure()	过程结束后就可以获取到了，而getWidth()方法要在layout()过程结束后才能获取到。
+		另外，getMeasureWidth()方法中的值是通过setMeasuredDimension()方法来进行设置的，而getWidth()方法中的值则是通过视图右边的坐标减去左边的坐标计算出来的。
+	3.onDraw
+	ViewRoot中的代码会继续执行并创建出一个Canvas对象，然后调用View的draw()方法来执行具体的绘制工作
+		1.这一步的作用是对视图的背景进行绘制
+		2.这里会先得到一个mBGDrawable对象，然后根据layout过程确定的视图位置来设置	背景的绘制区域
+		3.之后再调用Drawable的draw()方法来完成背景的绘制工作
+		4.这一步的作用是对视图的内容进行绘制
+		5.第三步完成之后紧接着会执行第四步，这一步的作用是对当前视图的所有子视图进行绘制，但如果当前的视图没有子视图，那么也就不需要进行绘制了。因此你会发现View中的dispatchDraw()方法又是一个空方法，而ViewGroup的dispatchDraw()方法中就会有具体的绘制代码。
+		6.这一步的作用是对视图的滚动条进行绘制
+		－－－－－
+		绘制的方式主要是借助Canvas这个类，它会作为参数传入到onDraw()方法中，供给每个视图使用。
+3.touch事件机制
+
+
+4.@TargetAPI(version)
+google:
+Indicates that Lint should treat this type as targeting a given API level, no matter what the project target is.
+如果不加，lint编译是会报错
+
+android 各个版本兼容性方案
+最好在方法内通过Build.VERSION.SDK进行判断版本，不同版本系统使用不同的API
+
+5. ClipboardManager(clip 剪切；board 板) 引申：clipboard framework
+init:getSystemService(Class)
+supports type:
+ It supports both simple and complex data types, including text strings, complex data structures, text and binary stream data, and even application assets
+store type:
+Simple text data is stored directly in the clipboard, while complex data is stored as a reference that the pasting application resolves with a content provider
+tips:
+The clipboard holds only one clip object at a time. When an application puts a clip object on the clipboard, the previous clip object disappears.
+
+The clip object can take one of three forms:
+Text
+A text string. You put the string directly into the clip object, which you then put onto the clipboard. To paste the string, you get the clip object from the clipboard and copy the string to into your application's storage.
+URI
+A Uri object representing any form of URI. This is primarily for copying complex data from a content provider. To copy data, you put a Uri object into a clip object and put the clip object onto the clipboard. To paste the data, you get the clip object, get the Uri object, resolve it to a data source such as a content provider, and copy the data from the source into your application's storage.
+Intent
+An Intent. This supports copying application shortcuts. To copy data, you create an Intent, put it into a clip object, and put the clip object onto the clipboard. To paste the data, you get the clip object and then copy the Intent object into your application's memory area.
+
+
+6.Moto G(2代) 4G LTE
+1>.打开Webview url时，出现err ssl protocol error 
+
+7.怎么实现效率很高的自定义组件
+	1.不要在动画正在执行的时候做内存分配的事情，导致卡顿
+	2.你还需要尽可能的减少onDraw被调用的次数，大多数时候导致onDraw都是因为调用了invalidate().因此请尽量减少调用invaildate()的次数。如果可能的话，尽量调用含有4个参数的invalidate()方法而不是没有参数的invalidate()。没有参数的invalidate会强制重绘整个view。
+
+另外一个非常耗时的操作是请求layout。任何时候执行requestLayout()，会使得Android UI系统去遍历整个View的层级来计算出每一个view的大小。如果找到有冲突的值，它会需要重新计算好几次。另外需要尽量保持View的层级是扁平化的，这样对提高效率很有帮助。
+
+如果你有一个复杂的UI，你应该考虑写一个自定义的ViewGroup来执行他的layout操作。与内置的view不同，自定义的view可以使得程序仅仅测量这一部分，这避免了遍历整个view的层级结构来计算大小。这个PieChart 例子展示了如何继承ViewGroup作为自定义view的一部分。PieChart 有子views，但是它从来不测量它们。而是根据他自身的layout法则，直接设置它们的大小
+	3.使用硬件加速
+	GPU硬件加速可以提高许多程序的性能。但是这并不是说它适合所有的程序
+—
+
+	
