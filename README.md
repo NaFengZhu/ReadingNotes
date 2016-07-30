@@ -116,5 +116,17 @@ when表达式于Java中的Switch\/case类似，但是要强大的多。与Java�
 
 ![](/assets/7.png)
 
-24.
+24.Ranges
+
+    Ranges表达式是用一个 ".."操作符，它是被定义实现了一个 RangeTo 方法
+
+    Range优化 ｛
+
+    Range 被定义为可以被比较的任意类型，但是对于数字类型，比较器会通过转换它为简单的类似Java代码来避免额外开销的方式来优化它。
+
+![](/assets/8.png)
+
+｝
+
+25.
 
