@@ -136,7 +136,11 @@ Range 被定义为可以被比较的任意类型，但是对于数字类型，�
 范型编程包括，在不指定代码中使用的确切类型的情况下来编写算法。
 ```
 
-26.Unit testing 
+26.Unit testing
 
 ![](/assets/9.png)
+
+27.Kotlin对于Android开发者而言是目前最好的Java的替代者
+
+28.Anko的实现方式对学习大部分的Kotlin语言都是非常有帮助的。
 
